@@ -7,12 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class ClientServices {
+public class ClientService {
 
   private final ClientRepository clientRepository;
 
   // Injection de dépendance par constructeur (Principe d'Inversion des Dépendances - SOLID)
-  public ClientServices(ClientRepository clientRepository) {
+  public ClientService(ClientRepository clientRepository) {
     this.clientRepository = clientRepository;
   }
 
