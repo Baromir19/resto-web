@@ -2,32 +2,27 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Demo</title>
+    <title>Pizzeria Firenze</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="header">
-        <button class="home-btn" aria-label="Home">
-        </button>
-        <div class="header-actions">
-            <button class="btn btn-outline">Commande</button>
-            <button class="btn btn-outline">Déconnecter</button>
-        </div>
-    </header>
-    <main class="main">
-        <div class="whitespace">
-            <h1>Pizzeria Firenze</h1>
-            <div class="main-actions">
-                <button class="btn btn-primary">Plats</button>
-                <button class="btn btn-primary">Clients</button>
-                <button class="btn btn-primary">Commandes</button>
-            </div>
-        </div>
-    </main>
-    <footer class="app-footer">
-        <p>&copy; Pizzeria Firenze 2026</p>
-    </footer>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/main.js"></script>
+<header>
+    <div class="header-title">Pizzeria Firenze</div>
+    <div class="nav-buttons">
+        <a href="../resto-web/src/main/resources/templates/order.html" class="nav-btn">+</a>
+        <a href="#" class="nav-btn">Déconnecter</a>
+    </div>
+</header>
+<!-- MAIN -->
+<div class="main main-home">
+    <div class="home-buttons">
+        <a href="dish.html" class="home-btn">Plats</a>
+        <a href="#" class="home-btn">Clients</a>
+        <a href="list-order.html" class="home-btn">Commandes</a>
+    </div>
+</div>
+<footer class="footer">
+    © Pizzeria Firenze 2026
+</footer>
 </body>
 </html>
