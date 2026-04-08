@@ -69,4 +69,52 @@ public class ClientWebController {
     // 3. On redirige l'utilisateur vers la page de la liste des clients
     return "redirect:/clients";
   }
+
+  /**
+   * UPDATE (Étape 1) : Affiche le formulaire pré-rempli pour modifier un client
+   */
+  @GetMapping("/modifier/{id}")
+  public String showUpdateForm(@PathVariable Integer id, Model model) {
+    // 1. On va chercher les infos du client actuel dans l'API
+    String url = apiBaseUrl + "/clients/" + id;
+    ClientDto client = restTemplate.getForObject(url, ClientDto.class);
+
+    // 2. On les envoie au formulaire Thymeleaf
+    model.addAttribute("client", client);
+    return "client/form";
+  }
+
+  /**
+   * UPDATE (Étape 2) : Réceptionne le formulaire modifié et fait un PUT vers l'API
+   */
+  @PostMapping("/modifier/{id}")
+  public String updateClient(
+      @PathVariable Integer id,
+      @Valid @ModelAttribute("client") ClientDto client,
+      BindingResult bindingResult
+  ) {
+    // Vérification des erreurs de validation
+    if (bindingResult.hasErrors()) {
+      return "client/form";
+    }
+
+    // On envoie la requête PUT à l'API avec les nouvelles données
+    String url = apiBaseUrl + "/clients/" + id;
+    restTemplate.put(url, client);
+
+    return "redirect:/clients";
+  }
+
+  /**
+   * DELETE : Demande à l'API de supprimer un client
+   */
+  @GetMapping("/supprimer/{id}")
+  public String deleteClient(@PathVariable Integer id) {
+    String url = apiBaseUrl + "/clients/" + id;
+
+    // On envoie la requête DELETE à l'API
+    restTemplate.delete(url);
+
+    return "redirect:/clients";
+  }
 }

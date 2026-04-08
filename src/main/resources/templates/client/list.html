@@ -40,8 +40,13 @@
             <td th:text="${c.firstName}">Jean</td>
             <td th:text="${c.lastName}">Dupont</td>
             <td>
-                <a href="#" class="btn btn-sm btn-outline-secondary">Modifier</a>
-                <a href="#" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                <a th:href="@{/clients/modifier/{id}(id=${c.id})}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+
+                <a th:href="@{/clients/supprimer/{id}(id=${c.id})}"
+                   class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');">
+                    Supprimer
+                </a>
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(clients)}">
