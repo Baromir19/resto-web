@@ -1,24 +1,4 @@
 // =====================
-// FILTER SYSTEM
-// =====================
-function filterItems(category) {
-    const cards = document.querySelectorAll('.card');
-
-    cards.forEach(card => {
-        if (category === 'all') {
-            card.style.display = 'block';
-        } else {
-            if (card.classList.contains(category)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        }
-    });
-}
-
-
-// =====================
 // CART SYSTEM
 // =====================
 let cart = [];
@@ -124,16 +104,8 @@ function saveDish(event) {
 
     localStorage.setItem("dishes", JSON.stringify(dishes));
 
-    window.location.href = "dish.html";
+    window.location.href = "list-dish.html";
 }
-
-
-// =====================
-// INIT
-// =====================
-window.onload = function () {
-    filterItems('pizza');
-};
 
 // =====================
 // Delete
@@ -165,10 +137,6 @@ function loadDishForEdit() {
 
     // CHANGE BUTTON TEXT
     document.querySelector("button[type='submit']").innerText = "Modifier";
-}
-
-function goBack() {
-    window.location.href = "dish.html";
 }
 
 function editDish(name) {
