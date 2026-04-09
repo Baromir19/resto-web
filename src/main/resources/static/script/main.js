@@ -185,3 +185,37 @@ function editDish(name) {
 
     window.location.href = "create-dish.html";
 }
+
+function deleteOrder(id) {
+    const confirmDelete = confirm("Êtes-vous sûr de vouloir supprimer cette commande ?");
+
+    if (!confirmDelete) return;
+
+    console.log("Commande supprimée:", id);
+
+    // later → backend delete
+}
+
+// =====================
+// MODAL (CONFIRM DELETE)
+// =====================
+
+function showConfirmModal(message, onConfirm) {
+    document.getElementById("confirmMessage").innerText = message;
+
+    const modal = document.getElementById("confirmModal");
+    modal.style.display = "flex";
+
+    document.getElementById("confirmYes").onclick = function () {
+        onConfirm();
+        closeModal();
+    };
+}
+
+function closeModal() {
+    document.getElementById("confirmModal").style.display = "none";
+}
+
+function editOrder(id) {
+    window.location.href = "/temp/order/edit-order.html?id=" + id;
+}
