@@ -1,60 +1,91 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Pizzeria Firenze - Clients</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #F1FAEE; color: #1D3557; font-family: 'Inter', sans-serif; }
-        .navbar, .table-dark { background-color: #1D3557 !important; }
-        .btn-add { background-color: #2A9D8F; color: white; border: none; }
-        .btn-add:hover { background-color: #21867a; color: white; }
-    </style>
+    <link rel="stylesheet" th:href="@{/style/styles.css}">
+    <link rel="stylesheet" th:href="@{/style/client-modal.css}">
 </head>
 <body>
 
-<nav class="navbar navbar-dark mb-4 p-3">
-    <div class="container">
-        <a class="navbar-brand" href="#">🍕 Pizzeria Firenze - Back-Office</a>
+<header>
+    <div class="header-title">Pizzeria Firenze</div>
+    <div class="nav-buttons">
+        <a th:href="@{/clients}" class="nav-btn">Clients</a>
+        <a href="#" class="nav-btn">Déconnecter</a>
     </div>
-</nav>
+</header>
 
-<div class="container bg-white p-4 rounded shadow-sm">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="m-0">Gestion des Clients</h2>
-        <a th:href="@{/clients/nouveau}" class="btn btn-add">+ Nouveau Client</a>
+<div class="main">
+    <div class="menu">
+        <h2>Gestion des Clients</h2>
+        <div class="categories-bar">
+            <div class="categories">
+                <button>Tous les clients</button>
+            </div>
+
+            <button class="btn-create" th:onclick="|window.location.href='@{/clients/nouveau}'|">
+                + Nouveau Client
+            </button>
+        </div>
+
+        <table class="client-table" style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+            <tr style="border-bottom: 2px solid #ccc; padding-bottom: 10px;">
+                <th>ID</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${clients}" style="border-bottom: 1px solid #eee;">
+                <td th:text="${c.id}" style="padding: 15px 5px;">1</td>
+                <td th:text="${c.firstName}" style="padding: 15px 5px;">Jean</td>
+                <td th:text="${c.lastName}" style="padding: 15px 5px;">Dupont</td>
+                <td style="padding: 15px 5px;">
+
+                    <a th:href="@{/clients/modifier/{id}(id=${c.id})}"
+                       style="text-decoration: none; padding: 8px 12px; background: #f0ad4e; color: white; border-radius: 4px; margin-right: 5px;">
+                        Modifier
+                    </a>
+
+                    <button type="button"
+                            th:attr="data-id=${c.id}, data-name=${c.firstName} + ' ' + ${c.lastName}"
+                            onclick="openDeleteModal(this)"
+                            style="padding: 8px 12px; background: #d9534f; color: white; border-radius: 4px; border: none; cursor: pointer;">
+                        Supprimer
+                    </button>
+
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(clients)}">
+                <td colspan="4" style="text-align: center; padding: 30px; color: #777;">
+                    Aucun client n'est enregistré pour le moment.
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-
-    <table class="table table-hover">
-        <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="c : ${clients}">
-            <td th:text="${c.id}">1</td>
-            <td th:text="${c.firstName}">Jean</td>
-            <td th:text="${c.lastName}">Dupont</td>
-            <td>
-                <a th:href="@{/clients/modifier/{id}(id=${c.id})}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-
-                <a th:href="@{/clients/supprimer/{id}(id=${c.id})}"
-                   class="btn btn-sm btn-outline-danger"
-                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');">
-                    Supprimer
-                </a>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(clients)}">
-            <td colspan="4" class="text-center text-muted">Aucun client trouvé dans la base de données.</td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 
+<footer class="footer">
+    © Pizzeria Firenze 2026
+</footer>
+
+<script th:src="@{/script/main.js}"></script>
+<script th:src="@{/script/client-modal.js}"></script>
+<div id="deleteModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>Confirmer la suppression</h3>
+        <p>Êtes-vous sûr de vouloir supprimer définitivement le client <strong id="modalClientName">Nom du client</strong> ?</p>
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Annuler</button>
+
+            <a id="confirmDeleteBtn" href="#" class="btn-danger">Oui, supprimer</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>
