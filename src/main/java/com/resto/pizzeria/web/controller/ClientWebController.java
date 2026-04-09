@@ -35,23 +35,23 @@ public class ClientWebController {
     model.addAttribute("clients", response.getBody());
 
     // On renvoie vers le fichier src/main/resources/templates/clients/list.html
-    return "client/list";
+    return "pages/client/list";
   }
 
   /**
    * CREATE (Étape 1) : Affiche le formulaire vide pour ajouter un client
    */
-  @GetMapping("/nouveau")
+  @GetMapping("/new")
   public String showCreateForm(Model model) {
     // On envoie un objet vide à Thymeleaf pour qu'il puisse lier les champs du formulaire
     model.addAttribute("client", new ClientDto());
-    return "client/form"; // Renvoie vers templates/clients/form.html
+    return "pages/client/form"; // Renvoie vers templates/clients/form.html
   }
 
   /**
    * CREATE (Étape 2) : Réceptionne les données du formulaire et les envoie à l'API
    */
-  @PostMapping("/nouveau")
+  @PostMapping
   public String createClient(
       @Valid @ModelAttribute("client") ClientDto client,
       BindingResult bindingResult
@@ -59,7 +59,7 @@ public class ClientWebController {
     // 1. Vérification des erreurs de validation (les @NotBlank du DTO)
     if (bindingResult.hasErrors()) {
       // S'il y a une erreur, on recharge la page du formulaire avec les messages d'erreur
-      return "client/form";
+      return "pages/client/form";
     }
 
     // 2. S'il n'y a pas d'erreur, on fait un POST vers l'API
@@ -73,7 +73,7 @@ public class ClientWebController {
   /**
    * UPDATE (Étape 1) : Affiche le formulaire pré-rempli pour modifier un client
    */
-  @GetMapping("/modifier/{id}")
+  @GetMapping("/{id}/edit")
   public String showUpdateForm(@PathVariable Integer id, Model model) {
     // 1. On va chercher les infos du client actuel dans l'API
     String url = apiBaseUrl + "/clients/" + id;
@@ -81,13 +81,13 @@ public class ClientWebController {
 
     // 2. On les envoie au formulaire Thymeleaf
     model.addAttribute("client", client);
-    return "client/form";
+    return "pages/client/form";
   }
 
   /**
    * UPDATE (Étape 2) : Réceptionne le formulaire modifié et fait un PUT vers l'API
    */
-  @PostMapping("/modifier/{id}")
+  @PostMapping("/{id}")
   public String updateClient(
       @PathVariable Integer id,
       @Valid @ModelAttribute("client") ClientDto client,
@@ -95,7 +95,7 @@ public class ClientWebController {
   ) {
     // Vérification des erreurs de validation
     if (bindingResult.hasErrors()) {
-      return "client/form";
+      return "pages/client/form";
     }
 
     // On envoie la requête PUT à l'API avec les nouvelles données
@@ -108,7 +108,7 @@ public class ClientWebController {
   /**
    * DELETE : Demande à l'API de supprimer un client
    */
-  @GetMapping("/supprimer/{id}")
+  @DeleteMapping("/{id}")
   public String deleteClient(@PathVariable Integer id) {
     String url = apiBaseUrl + "/clients/" + id;
 

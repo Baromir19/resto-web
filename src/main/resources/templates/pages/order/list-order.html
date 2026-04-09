@@ -1,86 +1,43 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des commandes - Pizzeria Firenze</title>
-    <link rel="stylesheet" href="/style/styles.css">
+    <title>Liste des Commandes</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
-
 <body>
-
-<!-- HEADER -->
-<div id="header"></div>
-
-<!-- MAIN -->
+<header>
+    <div class="header-title">Pizzeria Firenze</div>
+    <div class="nav-buttons">
+        <a href="/homepage" class="nav-btn">Accueil</a>
+    </div>
+</header>
 <div class="main">
-    <div class="menu">
-        <h2>Liste des Commandes</h2>
-
-        <table class="order-table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Date</th>
-                <th>Client</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-
-            <tbody id="orders-table">
-            <!-- Example rows -->
-            <tr>
-                <td>1</td>
-                <td>2026-04-01 12:15</td>
-                <td>Marco Rossi</td>
-                <td>En cours</td>
-                <td>
-                    <button class="btn-edit" onclick="editOrder(1)">Modifier</button>
-                    <button class="btn-red" onclick="deleteOrder(1)">Supprimer</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>2</td>
-                <td>2026-04-01 12:45</td>
-                <td>Giulia Bianchi</td>
-                <td>Terminée</td>
-                <td>
-                    <button class="btn-edit" onclick="editOrder(1)">Modifier</button>
-                    <button class="btn-red" onclick="deleteOrder(1)">Supprimer</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- FOOTER -->
-<div id="footer"></div>
-
-<!-- JS -->
-<script src="/script/main.js"></script>
-
-<script>
-    fetch("/components/header.html")
-        .then(res => res.text())
-        .then(data => document.getElementById("header").innerHTML = data);
-
-    fetch("/components/footer.html")
-        .then(res => res.text())
-        .then(data => document.getElementById("footer").innerHTML = data);
-
-
-</script>
-<div id="confirmModal" class="modal">
-    <div class="modal-content">
-        <p id="confirmMessage"></p>
-
-        <div class="modal-buttons">
-            <button id="confirmYes" class="btn-blue">Oui</button>
-            <button onclick="closeModal()" class="btn-red">Annuler</button>
-        </div>
-    </div>
+    <h2>Liste des Commandes</h2>
+    <table border="1" width="100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Total (€)</th>
+            <th>Détails</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.clientName}"></td>
+            <td th:text="${order.total}"></td>
+            <td>
+                <ul>
+                    <li th:each="item : ${order.items}"
+                        th:text="${item.name + ' x' + item.quantity}">
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
