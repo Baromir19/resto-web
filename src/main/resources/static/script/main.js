@@ -104,7 +104,7 @@ function saveDish(event) {
 
     localStorage.setItem("dishes", JSON.stringify(dishes));
 
-    window.location.href = "list-dish.html";
+    window.location.href = "list.html";
 }
 
 // =====================
@@ -151,7 +151,7 @@ function editDish(name) {
 
     localStorage.setItem("editDish", JSON.stringify(dish));
 
-    window.location.href = "create-dish.html";
+    window.location.href = "form.html";
 }
 
 function deleteOrder(id) {

@@ -324,41 +324,6 @@ html, body {
    STYLES SPÉCIFIQUES AUX FORMULAIRES (CRUD)
    ========================================= */
 
-.form-container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    max-width: 500px;
-    margin: 20px auto;
-    border: 1px solid #eee;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #333;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 1rem;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: #f0ad4e;
-}
-
 /* --- Gestion des erreurs de validation (Spring @Valid) --- */
 .error-text {
     color: #d9534f;

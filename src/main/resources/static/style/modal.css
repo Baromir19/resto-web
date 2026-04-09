@@ -42,18 +42,3 @@
     justify-content: center;
     gap: 15px;
 }
-
-/* On réutilise les classes de boutons existantes, avec une surcharge pour le bouton rouge */
-.btn-danger {
-    background: #d9534f;
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-}
-.btn-danger:hover {
-    background: #c9302c;
-}

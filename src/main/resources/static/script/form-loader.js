@@ -17,18 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res = await fetch(action, {
                 method: method.toUpperCase(),
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+                body: formData,
+                redirect: 'manual'
             });
 
-            if (!res.ok) {
-                throw new Error('Network error');
+            if (!res.ok && !res.redirected) {
+                throw new Error('Erreur de réseau');
             }
 
-            const data = await res.json();
-
-            // todo: throw if error
-            console.log('Success:', data);
+            if (res.redirected) {
+                window.location.href = res.url;
+            }
         } catch (err) {
             // or redirect?
             info.textContent = 'Error: ' + err; // set text

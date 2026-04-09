@@ -3,6 +3,7 @@ package com.resto.pizzeria.web.controller;
 import com.resto.pizzeria.web.model.DishDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,46 +21,51 @@ public class DishWebController {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping
-    public String listDishes(Model model) {
-        String url = apiBaseUrl + "/dishes/menu";
+    public String listDishes(final Model model) {
+        String url = apiBaseUrl + "/dishes";
         ResponseEntity<DishDto[]> response = restTemplate.getForEntity(url, DishDto[].class);
         model.addAttribute("dishes", response.getBody());
-        return "dish/list";
+        return "pages/dish/list";
     }
 
-    @GetMapping("/nouveau")
-    public String showCreateForm(Model model) {
+    @GetMapping("/new")
+    public String showCreateForm(final Model model) {
         model.addAttribute("dish", new DishDto());
-        return "dish/form";
+        return "pages/dish/form";
     }
 
-    @PostMapping("/nouveau")
-    public String createDish(@Valid @ModelAttribute("dish") DishDto dish, BindingResult bindingResult) {
+    @PostMapping
+    public String createDish(
+            @Valid @ModelAttribute("dish") final DishDto dish,
+            final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "dish/form";
+            return "pages/dish/form"; // todo: send json form with error
         }
         restTemplate.postForObject(apiBaseUrl + "/dishes", dish, DishDto.class);
         return "redirect:/dishes";
     }
 
-    @GetMapping("/modifier/{id}")
-    public String showUpdateForm(@PathVariable Long id, Model model) {
+    @GetMapping("/{id}/edit")
+    public String showUpdateForm(@PathVariable final Long id, final Model model) {
         DishDto dish = restTemplate.getForObject(apiBaseUrl + "/dishes/" + id, DishDto.class);
         model.addAttribute("dish", dish);
-        return "dish/form";
+        return "pages/dish/form";
     }
 
-    @PostMapping("/modifier/{id}")
-    public String updateDish(@PathVariable Long id, @Valid @ModelAttribute("dish") DishDto dish, BindingResult bindingResult) {
+    @PostMapping("/{id}")
+    public String updateDish(
+            @PathVariable final Long id,
+            @Valid @ModelAttribute("dish") final DishDto dish,
+            final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "dish/form";
+            return "pages/dish/form";
         }
         // Pour faire simple dans le Front, on peut utiliser postForObject ou put selon la configuration API
         restTemplate.postForObject(apiBaseUrl + "/dishes", dish, DishDto.class);
         return "redirect:/dishes";
     }
 
-    @GetMapping("/supprimer/{id}")
+    @DeleteMapping("/{id}")
     public String deleteDish(@PathVariable Long id) {
         restTemplate.delete(apiBaseUrl + "/dishes/" + id);
         return "redirect:/dishes";
