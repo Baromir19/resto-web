@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizzeria Firenze</title>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link rel="stylesheet" href="../../../static/style/styles.css">
+    <link rel="stylesheet" href="../../../static/style/list-style.css">
+    <link rel="stylesheet" href="../../../static/style/nav-style.css">
+</head>
+<body>
+<header>
+    <h1 class="header-title">Pizzeria Firenze</h1>
+    <div class="nav-buttons">
+        <button class="btn nav">Déconnecter</button>
+    </div>
+</header>
+<!-- MAIN -->
+<main class="main">
+    <div class="menu">
+        <h1 class="title">Plats</h1>
+        <section class="categories-bar">
+            <!-- LEFT: category buttons -->
+            <div class="categories">
+                <button class="btn" id="btnPizzaFilter" >Pizzas</button>
+                <button class="btn" id="btnDrinkFilter">Boissons</button>
+                <button class="btn" id="btnDessertFilter">Desserts</button>
+            </div>
+            <!-- RIGHT: create button -->
+            <a class="btn create" href="create-dish.html">
+                + Nouveau
+            </a>
+
+        </section>
+        <section class="grid grid-dish">
+            <!-- PIZZAS -->
+            <div class="card pizza">
+                <b>TITLE</b><br>
+                <p>DESCRIPTION<p>
+                <p class="price">PRICE</p>
+                <div class="card-actions">
+                    <a class="btn edit" href="edit-dish.html">
+                        Modifier
+                    </a>
+                    <button class="btn delete" onclick="deleteDish('Margherita')">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+<footer class="footer">
+    © Pizzeria Firenze 2026
+</footer>
+<script src="../../../static/script/main.js"></script>
+<script src="../../../static/script/dish-tools.js"></script>
+</body>
+</html>
