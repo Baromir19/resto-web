@@ -369,3 +369,82 @@ input, textarea, select {
     gap: 10px;
     margin-top: 10px;
 }
+
+/* =========================================
+   STYLES SPÉCIFIQUES AUX FORMULAIRES (CRUD)
+   ========================================= */
+
+.form-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    max-width: 500px;
+    margin: 20px auto;
+    border: 1px solid #eee;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #f0ad4e;
+}
+
+/* --- Gestion des erreurs de validation (Spring @Valid) --- */
+.error-text {
+    color: #d9534f;
+    font-size: 0.85em;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.input-error {
+    border-color: #d9534f !important;
+    background-color: #fdf2f2;
+}
+
+/* --- Boutons d'action du formulaire --- */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-submit {
+    background: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-cancel {
+    background: #e0e0e0;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+}
