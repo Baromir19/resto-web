@@ -5,74 +5,74 @@
 
 <body>
 
-<header th:replace="~{components/headers :: mainHeader}"></header>
+    <header th:replace="~{components/headers :: mainHeader}"></header>
 
-<main class="main">
-    <div class="menu">
-        <h1>Gestion des Clients</h1>
-        <div class="categories-bar">
-            <a class="btn create" th:href="@{/clients/new}">
-                + Nouveau
-            </a>
+    <main class="main">
+        <div class="menu">
+            <h1 class="title">Gestion des Clients</h1>
+            <div class="categories-bar">
+                <a class="btn create" th:href="@{/clients/new}">
+                    + Nouveau
+                </a>
+            </div>
+
+            <table class="table-list">
+                <thead>
+                <tr class="table-header">
+                    <th>ID</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${clients}" class="table-entry">
+                    <td th:text="${c.id}" class="table-value">1</td>
+                    <td th:text="${c.firstName}" class="table-value">Jean</td>
+                    <td th:text="${c.lastName}" class="table-value">Dupont</td>
+                    <td class="table-value spaced">
+
+                        <a th:href="@{/clients/{id}/edit(id=${c.id})}" class="btn edit">
+                            Modifier
+                        </a>
+
+                        <button type="button"
+                                th:attr="data-id=${c.id}, data-name=${c.firstName} + ' ' + ${c.lastName}"
+                                onclick="openDeleteModalClient(this)" class="btn delete">
+                            Supprimer
+                        </button>
+
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(clients)}">
+                    <td colspan="4" class="table-empty-entry">
+                        Aucun client n'est enregistré pour le moment.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
+    </main>
 
-        <table class="client-table" style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 20px;">
-            <thead>
-            <tr style="border-bottom: 2px solid #ccc; padding-bottom: 10px;">
-                <th>ID</th>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="c : ${clients}" style="border-bottom: 1px solid #eee;">
-                <td th:text="${c.id}" style="padding: 15px 5px;">1</td>
-                <td th:text="${c.firstName}" style="padding: 15px 5px;">Jean</td>
-                <td th:text="${c.lastName}" style="padding: 15px 5px;">Dupont</td>
-                <td style="padding: 15px 5px;">
+    <footer th:replace="~{components/footers :: mainFooter}"></footer>
 
-                    <a th:href="@{/clients/{id}/edit(id=${c.id})}" class="btn edit">
-                        Modifier
-                    </a>
+    <script th:src="@{/script/main.js}"></script>
+    <script th:src="@{/script/modal.js}"></script>
 
-                    <button type="button"
-                            th:attr="data-id=${c.id}, data-name=${c.firstName} + ' ' + ${c.lastName}"
-                            onclick="openDeleteModal(this)" class="btn delete">
-                        Supprimer
-                    </button>
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Confirmer la suppression</h3>
+            <p>Êtes-vous sûr de vouloir supprimer définitivement le client
+                <strong id="modalName">Nom du client</strong> ?
+            </p>
+            <div class="modal-actions">
+                <button id="confirmDeleteBtn" class="btn primary">Oui, supprimer</button>
 
-                </td>
-            </tr>
-
-            <tr th:if="${#lists.isEmpty(clients)}">
-                <td colspan="4" style="text-align: center; padding: 30px; color: #777;">
-                    Aucun client n'est enregistré pour le moment.
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</main>
-
-<footer th:replace="~{components/footers :: mainFooter}"></footer>
-
-<script th:src="@{/script/main.js}"></script>
-<script th:src="@{/script/client-modal.js}"></script>
-
-<div id="deleteModal" class="modal-overlay">
-    <div class="modal-content">
-        <h3>Confirmer la suppression</h3>
-        <p>Êtes-vous sûr de vouloir supprimer définitivement le client
-            <strong id="modalClientName">Nom du client</strong> ?
-        </p>
-        <div class="modal-actions">
-            <a id="confirmDeleteBtn" href="#" class="btn primary">Oui, supprimer</a>
-
-            <button type="button" class="btn secondary" onclick="closeDeleteModal()">Annuler</button>
+                <button type="button" class="btn secondary" onclick="closeDeleteModal()">Annuler</button>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
 </html>

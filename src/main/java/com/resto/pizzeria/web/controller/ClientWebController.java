@@ -3,6 +3,7 @@ package com.resto.pizzeria.web.controller;
 import com.resto.pizzeria.web.model.ClientDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +46,7 @@ public class ClientWebController {
   public String showCreateForm(Model model) {
     // On envoie un objet vide à Thymeleaf pour qu'il puisse lier les champs du formulaire
     model.addAttribute("client", new ClientDto());
-    return "pages/client/form"; // Renvoie vers templates/clients/form.html
+    return "pages/client/form"; // Renvoie vers templates/clients/form_remove.html
   }
 
   /**
@@ -109,6 +110,7 @@ public class ClientWebController {
    * DELETE : Demande à l'API de supprimer un client
    */
   @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   public String deleteClient(@PathVariable Integer id) {
     String url = apiBaseUrl + "/clients/" + id;
 
