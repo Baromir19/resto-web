@@ -14,15 +14,16 @@
                 <tr class="table-header">
                     <th>ID</th>
                     <th>Client</th>
-                    <th>Total (€)</th>
                     <th>Détails</th>
+                    <th>Statut</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="order : ${orders}" class="table-entry">
                     <td th:text="${order.id}" class="table-value"></td>
-                    <td th:text="${order.client}" class="table-value"></td>
+                    <td th:text="${order.client.firstName
+                        + ' ' + order.client.lastName}" class="table-value"></td>
                     <td class="table-value">
                         <ul>
                             <li th:each="item : ${order.items}"
@@ -30,13 +31,14 @@
                             </li>
                         </ul>
                     </td>
+                    <td th:text="${order.status.label}" class="table-value"></td>
                     <td class="table-value spaced">
                         <a th:href="@{/orders/{id}/edit(id=${order.id})}" class="btn edit">
                             Modifier
                         </a>
                         <button type="button"
                                 th:attr="data-id=${order.id}"
-                                onclick="openDeleteModal(this)" class="btn delete">
+                                onclick="openDeleteModalOrder(this)" class="btn delete">
                             Supprimer
                         </button>
                     </td>
@@ -52,16 +54,16 @@
     </div>
 
     <script th:src="@{/script/main.js}"></script>
-    <script th:src="@{/script/client-modal.js}"></script>
+    <script th:src="@{/script/modal.js}"></script>
 
     <div id="deleteModal" class="modal-overlay">
         <div class="modal-content">
             <h3>Confirmer la suppression</h3>
-            <p>Êtes-vous sûr de vouloir supprimer définitivement le client
-                <strong id="modalClientName">Nom du client</strong> ?
+            <p>Êtes-vous sûr de vouloir supprimer définitivement la commande
+                <strong id="modalName"></strong> ?
             </p>
             <div class="modal-actions">
-                <a id="confirmDeleteBtn" href="#" class="btn primary">Oui, supprimer</a>
+                <button id="confirmDeleteBtn" class="btn primary">Oui, supprimer</button>
 
                 <button type="button" class="btn secondary" onclick="closeDeleteModal()">Annuler</button>
             </div>

@@ -1,91 +1,93 @@
 <!DOCTYPE html>
 <html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Commande - Pizzeria Firenze</title>
 
-    <head th:replace="~{components/heads :: formHead('Modifier commande')}"></head>
+    <link rel="stylesheet" th:href="@{/style/form.css}">
+    <link rel="stylesheet" th:href="@{/style/styles.css}">
+    <link rel="stylesheet" th:href="@{/style/navigation.css}">
+    <link rel="stylesheet" th:href="@{/style/modal.css}">
+    <link rel="stylesheet" th:href="@{/style/list-entities.css}">
+</head>
 
 <body>
-    <header th:replace="components/headers :: mainHeader"></header>
 
-    <!-- MAIN -->
-    <div class="main">
-        <div class="menu">
-            <h2>Modifier Commande</h2>
+<footer th:replace="~{components/headers :: mainHeader}"></footer>
 
-            <!-- ID -->
-            <p><b>ID commande:</b> <span id="order-id"></span></p>
-
-            <!-- ITEMS (LIKE CART) -->
-            <div id="cart-items"></div>
-
-            <hr>
-
-            <p>Sous-total: <span id="subtotal">0 €</span></p>
-            <p>TVA (10%): <span id="tax">0 €</span></p>
-            <div class="total">Total: <span id="total">0 €</span></div>
-
-            <div class="cart-actions">
-                <button class="btn primary" onclick="saveOrder()">Enregistrer</button>
-                <button class="btn secondary" onclick="goBack()">Annuler</button>
+<div class="main">
+    <div class="menu">
+        <h1 th:text="${order != null} ? 'Modifier Commande' : 'Nouvelle Commande'"></h1>
+        <div class="categories">
+            <button class="btn" id="btnPizzaFilter" >Pizzas</button>
+            <button class="btn" id="btnDrinkFilter">Boissons</button>
+            <button class="btn" id="btnDessertFilter">Desserts</button>
+        </div>
+        <div class="grid">
+            <!-- PIZZAS -->
+            <div th:each="dish : ${dishes}" class="card selectable"
+                 th:classappend="${#strings.toLowerCase(dish.category)}"
+                 onclick="addToCart(this)"
+                 th:attr="data-id=${dish.id},
+                          data-name=${dish.name},
+                          data-price=${dish.price}">
+                <b th:text="${dish.name}"></b>
+                <p th:text="${dish.description}"></p>
+                <p class="price" th:text="${dish.price + ' €'}"></p>
             </div>
         </div>
     </div>
+    <!-- CART -->
+    <div class="cart">
+        <h1>Panier Actuel</h1>
+        <form th:action="${order != null} ? @{/orders/{id}(id=${order.id})} : @{/orders}"
+              method="post">
+            <div class="form-group">
+                <label for="selectedClient">Client:</label>
+                <select id="selectedClient" name="client.id">
+                    <option th:each="client : ${clients}"
+                            th:value="${client.id}"
+                            th:text="${client.firstName + ' ' + client.lastName}"
+                            th:selected="${order != null and client.id == order.client.id}">
+                        Sélectionner un client
+                    </option>
+                </select>
+            </div>
+            <input type="hidden" name="dailyId" th:value="${order != null} ? ${order.dailyId} : 1">
+            <input type="hidden" name="creationDate" th:value="${order != null} ? ${order.creationDate} : null">
 
-    <footer th:replace="~{components/footers :: mainFooter}"></footer>
+            <!--todo: GET LIST OF ALL STATUSES if 'edit'-->
+            <div th:if="${order != null}">
+                <input type="hidden" name="status.id" value="1">
+            </div>
+            <div th:unless="${order != null}">
+                <input type="hidden" name="status.id" value="1">
+            </div>
 
-    <script th:src="@{/script/main.js}"></script>
+            <input type="hidden" name="dailyId" value="1">
+            <div id="cartItems"> </div>
+            <div id="orderInputs"> </div>
+            <!--p>Sous-total: <span id="subtotal">0 €</span></p>
+            <p>TVA (10%): <span id="tax">0 €</span></p-->
+            <div class="total">Total: <span id="totalPrice">0 €</span></div>
 
-    <script>
-        // =====================
-        // GET ID
-        // =====================
-        const params = new URLSearchParams(window.location.search);
-        const orderId = params.get("id");
+            <div class="cart-actions">
+                <button type="submit" class="btn primary">Valider</button>
+                <button class="btn secondary" onclick="clearCart()">Annuler</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-        document.getElementById("order-id").innerText = orderId;
+<footer th:replace="~{components/footers :: mainFooter}"></footer>
 
-        // =====================
-        // LOAD ORDER INTO CART
-        // =====================
-        function loadOrder() {
-            if (orderId == 1) {
-                cart = [
-                    { name: "Margherita", price: 12.9, quantity: 1 },
-                    { name: "Coca-Cola", price: 4, quantity: 2 }
-                ];
-            }
+<script th:src="@{/script/main.js}"></script>
+<script th:src="@{/script/dish-tools.js}"></script>
+<script th:src="@{/script/order-tools.js}"></script>
 
-            if (orderId == 2) {
-                cart = [
-                    { name: "Funghi", price: 14.9, quantity: 1 }
-                ];
-            }
-
-            renderCart();
-        }
-
-        loadOrder();
-
-        // =====================
-        // SAVE
-        // =====================
-        function saveOrder() {
-            console.log("Saving order:", {
-                id: orderId,
-                items: cart
-            });
-
-            alert("Commande mise à jour (temp)");
-
-            goBack();
-        }
-
-        // =====================
-        // BACK
-        // =====================
-        function goBack() {
-            window.location.href = "list-order.html";
-        }
-    </script>
+<script th:inline="javascript">
+    const existingItems = /*[[${order != null ? order.items : null}]]*/ null;
+</script>
 
 </body>
 </html>

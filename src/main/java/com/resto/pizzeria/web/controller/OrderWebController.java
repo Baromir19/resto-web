@@ -1,10 +1,12 @@
 package com.resto.pizzeria.web.controller;
 
+import com.resto.pizzeria.web.model.ClientDto;
 import com.resto.pizzeria.web.model.DishDto;
 import com.resto.pizzeria.web.model.OrderDto;
-import com.resto.pizzeria.web.model.OrderItemDto;
+import com.resto.pizzeria.web.model.StatusDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 @RequestMapping("/orders")
 public class OrderWebController {
+    private Integer dailyIdCounter = 1;
 
     @Value("${com.resto.pizzeria.web.apiUrl}")
     private String apiBaseUrl;
@@ -32,21 +35,30 @@ public class OrderWebController {
 
     @GetMapping("/new")
     public String showCreateForm(final Model model) {
-        String url = apiBaseUrl + "/dishes";
-        ResponseEntity<DishDto[]> response
-                = restTemplate.getForEntity(url, DishDto[].class);
-        model.addAttribute("dishes", response.getBody());
+        // ALL DISHES
+        String allDishesUrl = apiBaseUrl + "/dishes";
+        ResponseEntity<DishDto[]> responseDishes
+                = restTemplate.getForEntity(allDishesUrl, DishDto[].class);
+        model.addAttribute("dishes", responseDishes.getBody());
 
-        model.addAttribute("order", new OrderDto());
-        return "pages/order/create";
+        // ALL CLIENTS
+        String allClientsUrl = apiBaseUrl + "/clients";
+        ResponseEntity<ClientDto[]> responseClients
+                = restTemplate.getForEntity(allClientsUrl, ClientDto[].class);
+        model.addAttribute("clients", responseClients.getBody());
+
+        // model.addAttribute("order", new OrderDto());
+        return "pages/order/form";
     }
 
     @PostMapping
     public String createOrder(
             @Valid @ModelAttribute("order") final OrderDto order,
             final BindingResult bindingResult) {
+        order.setDailyId(dailyIdCounter++);
+
         if (bindingResult.hasErrors()) {
-            return "pages/order/form";
+            return "form";
         }
         restTemplate.postForObject(
                 apiBaseUrl + "/orders",
@@ -59,9 +71,31 @@ public class OrderWebController {
     public String showUpdateForm(
             @PathVariable final Long id,
             final Model model) {
-        OrderDto order = restTemplate.getForObject(
+        // ORDER
+        final OrderDto order = restTemplate.getForObject(
                 apiBaseUrl + "/orders/" + id, OrderDto.class);
         model.addAttribute("order", order);
+
+        // ALL DISHES
+        final String allDishesUrl = apiBaseUrl + "/dishes";
+        final ResponseEntity<DishDto[]> responseDishes
+                = restTemplate.getForEntity(allDishesUrl, DishDto[].class);
+        model.addAttribute("dishes", responseDishes.getBody());
+
+        // ALL CLIENTS
+        final String allClientsUrl = apiBaseUrl + "/clients";
+        final ResponseEntity<ClientDto[]> responseClients
+                = restTemplate.getForEntity(allClientsUrl, ClientDto[].class);
+        model.addAttribute("clients", responseClients.getBody());
+
+        /* todo: create Statuses Controller API?????
+
+        // ALL STATUSES
+        final String allStatusesUrl = apiBaseUrl + "/statuses";
+        final ResponseEntity<StatusDto[]> responseStatuses
+                = restTemplate.getForEntity(allStatusesUrl, StatusDto[].class);
+        model.addAttribute("statuses", responseStatuses.getBody());*/
+
         return "pages/order/form";
     }
 
@@ -80,6 +114,7 @@ public class OrderWebController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteOrder(@PathVariable Long id) {
         restTemplate.delete(apiBaseUrl + "/orders/" + id);
         return "redirect:/orders";

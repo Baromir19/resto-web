@@ -38,7 +38,7 @@
 
                         <button type="button"
                                 th:attr="data-id=${c.id}, data-name=${c.firstName} + ' ' + ${c.lastName}"
-                                onclick="openDeleteModal(this)" class="btn delete">
+                                onclick="openDeleteModalClient(this)" class="btn delete">
                             Supprimer
                         </button>
 
@@ -58,16 +58,16 @@
     <footer th:replace="~{components/footers :: mainFooter}"></footer>
 
     <script th:src="@{/script/main.js}"></script>
-    <script th:src="@{/script/client-modal.js}"></script>
+    <script th:src="@{/script/modal.js}"></script>
 
     <div id="deleteModal" class="modal-overlay">
         <div class="modal-content">
             <h3>Confirmer la suppression</h3>
             <p>Êtes-vous sûr de vouloir supprimer définitivement le client
-                <strong id="modalClientName">Nom du client</strong> ?
+                <strong id="modalName">Nom du client</strong> ?
             </p>
             <div class="modal-actions">
-                <a id="confirmDeleteBtn" href="#" class="btn primary">Oui, supprimer</a>
+                <button id="confirmDeleteBtn" class="btn primary">Oui, supprimer</button>
 
                 <button type="button" class="btn secondary" onclick="closeDeleteModal()">Annuler</button>
             </div>
