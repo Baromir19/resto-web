@@ -52,22 +52,18 @@ header {
 }
 
 /* BUTTON STYLE */
-.home-btn {
-    padding: 10px 20px;
+.btn.light {
     background: var(--color-bg-light);
-    color: #111;
-    text-decoration: none;
-    border-radius: var(--radius);
+    color: var(--color-text-dark);
     font-size: var(--text-sm);
     border: 1px solid var(--color-border-light);
     transition: 0.2s;
 }
 
 /* HOVER EFFECT */
-.home-btn:hover {
+.btn.light:hover {
     background: var(--color-hover);
 }
-
 
 /* SIDEBAR */
 .sidebar {

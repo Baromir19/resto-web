@@ -185,5 +185,5 @@ function closeModal() {
 }
 
 function editOrder(id) {
-    window.location.href = "/temp/order/edit-order.html?id=" + id;
+    window.location.href = "/temp/order/form.html?id=" + id;
 }

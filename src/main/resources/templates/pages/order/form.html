@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head th:replace="~{components/heads :: formHead('Modifier commande')}"></head>
+
+<body>
+    <header th:replace="components/headers :: mainHeader"></header>
+
+    <!-- MAIN -->
+    <div class="main">
+        <div class="menu">
+            <h2>Modifier Commande</h2>
+
+            <!-- ID -->
+            <p><b>ID commande:</b> <span id="order-id"></span></p>
+
+            <!-- ITEMS (LIKE CART) -->
+            <div id="cart-items"></div>
+
+            <hr>
+
+            <p>Sous-total: <span id="subtotal">0 €</span></p>
+            <p>TVA (10%): <span id="tax">0 €</span></p>
+            <div class="total">Total: <span id="total">0 €</span></div>
+
+            <div class="cart-actions">
+                <button class="btn primary" onclick="saveOrder()">Enregistrer</button>
+                <button class="btn secondary" onclick="goBack()">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{components/footers :: mainFooter}"></footer>
+
+    <script th:src="@{/script/main.js}"></script>
+
+    <script>
+        // =====================
+        // GET ID
+        // =====================
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get("id");
+
+        document.getElementById("order-id").innerText = orderId;
+
+        // =====================
+        // LOAD ORDER INTO CART
+        // =====================
+        function loadOrder() {
+            if (orderId == 1) {
+                cart = [
+                    { name: "Margherita", price: 12.9, quantity: 1 },
+                    { name: "Coca-Cola", price: 4, quantity: 2 }
+                ];
+            }
+
+            if (orderId == 2) {
+                cart = [
+                    { name: "Funghi", price: 14.9, quantity: 1 }
+                ];
+            }
+
+            renderCart();
+        }
+
+        loadOrder();
+
+        // =====================
+        // SAVE
+        // =====================
+        function saveOrder() {
+            console.log("Saving order:", {
+                id: orderId,
+                items: cart
+            });
+
+            alert("Commande mise à jour (temp)");
+
+            goBack();
+        }
+
+        // =====================
+        // BACK
+        // =====================
+        function goBack() {
+            window.location.href = "list-order.html";
+        }
+    </script>
+
+</body>
+</html>

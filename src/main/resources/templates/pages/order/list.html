@@ -1,61 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{components/heads :: listHead('Clients')}"></head>
+<head th:replace="~{components/heads :: listHead('Commandes')}"></head>
 
 <body>
+    <header th:replace="components/headers :: mainHeader"></header>
 
-    <header th:replace="~{components/headers :: mainHeader}"></header>
-
-    <main class="main">
+    <div class="main">
         <div class="menu">
-            <h1 class="title">Gestion des Clients</h1>
-            <div class="categories-bar">
-                <a class="btn create" th:href="@{/clients/new}">
-                    + Nouveau
-                </a>
-            </div>
-
+            <h1 class="title">Liste des Commandes</h1>
             <table class="table-list">
                 <thead>
                 <tr class="table-header">
                     <th>ID</th>
-                    <th>Prénom</th>
-                    <th>Nom</th>
+                    <th>Client</th>
+                    <th>Total (€)</th>
+                    <th>Détails</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="c : ${clients}" class="table-entry">
-                    <td th:text="${c.id}" class="table-value">1</td>
-                    <td th:text="${c.firstName}" class="table-value">Jean</td>
-                    <td th:text="${c.lastName}" class="table-value">Dupont</td>
+                <tr th:each="order : ${orders}" class="table-entry">
+                    <td th:text="${order.id}" class="table-value"></td>
+                    <td th:text="${order.client}" class="table-value"></td>
+                    <td class="table-value">
+                        <ul>
+                            <li th:each="item : ${order.items}"
+                                th:text="${item.dish.name + ' x' + item.quantity}">
+                            </li>
+                        </ul>
+                    </td>
                     <td class="table-value spaced">
-
-                        <a th:href="@{/clients/{id}/edit(id=${c.id})}" class="btn edit">
+                        <a th:href="@{/orders/{id}/edit(id=${order.id})}" class="btn edit">
                             Modifier
                         </a>
-
                         <button type="button"
-                                th:attr="data-id=${c.id}, data-name=${c.firstName} + ' ' + ${c.lastName}"
+                                th:attr="data-id=${order.id}"
                                 onclick="openDeleteModal(this)" class="btn delete">
                             Supprimer
                         </button>
-
                     </td>
                 </tr>
-
-                <tr th:if="${#lists.isEmpty(clients)}">
+                <tr th:if="${#lists.isEmpty(orders)}">
                     <td colspan="4" class="table-empty-entry">
-                        Aucun client n'est enregistré pour le moment.
+                        Aucune commande n'est enregistrée pour le moment.
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-    </main>
-
-    <footer th:replace="~{components/footers :: mainFooter}"></footer>
+    </div>
 
     <script th:src="@{/script/main.js}"></script>
     <script th:src="@{/script/client-modal.js}"></script>
@@ -73,6 +67,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

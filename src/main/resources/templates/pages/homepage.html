@@ -3,36 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Pizzeria Firenze</title>
-    <link rel="stylesheet" href="/style/styles.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+    <link rel="stylesheet" th:href="@{/style/styles.css}">
+    <link rel="stylesheet" th:href="@{/style/navigation.css}">
 </head>
 
+
 <body>
+    <header th:replace="~{components/headers :: mainHeader}"></header>
 
-<!-- HEADER (1 line) -->
-<div id="header"></div>
-
-<!-- MAIN -->
-<div class="main main-home">
-    <div class="home-buttons">
-        <a href="/dish/dish.html" class="home-btn">Plats</a>
-        <a href="#" class="home-btn">Clients</a>
-        <a href="/templates/orderorder/list-order.html" class="home-btn">Commandes</a>
+    <!-- MAIN -->
+    <div class="main centered">
+        <div class="home-buttons">
+            <a th:href="@{/dishes}" class="btn light">Plats</a>
+            <a th:href="@{/clients}" class="btn light">Clients</a>
+            <a th:href="@{/orders}" class="btn light">Commandes</a>
+        </div>
     </div>
-</div>
 
-<!-- FOOTER (1 line) -->
-<div id="footer"></div>
-
-<!-- SCRIPT (IMPORTANT) -->
-<script>
-    fetch("/components/header.html")
-        .then(res => res.text())
-        .then(data => document.getElementById("header").innerHTML = data);
-
-    fetch("/components/footer.html")
-        .then(res => res.text())
-        .then(data => document.getElementById("footer").innerHTML = data);
-</script>
+    <footer th:replace="~{components/footers :: mainFooter}"></footer>
 
 </body>
 </html>
