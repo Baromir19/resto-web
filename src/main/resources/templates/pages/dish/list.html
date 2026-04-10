@@ -17,24 +17,33 @@
                 <button class="btn" id="btnDessertFilter">Desserts</button>
             </div>
             <!-- RIGHT: create button -->
-            <a class="btn create" href="form.html">
+            <a class="btn create" th:href="@{/dishes/new}">
                 + Nouveau
             </a>
-
         </section>
         <section class="grid grid-dish">
-            <!-- PIZZAS -->
-            <div class="card pizza">
-                <b>TITLE</b><br>
-                <p>DESCRIPTION<p>
-                <p class="price">PRICE</p>
+            <div class="card"
+                 th:each="dish : ${dishes}"
+                 th:classappend="${dish.category.toLowerCase()}">
+                <b th:text="${dish.name}">TITLE</b><br>
+                <p th:text="${dish.description}">DESCRIPTION</p>
+                <p class="price" th:text="${dish.price} + ' €'">PRICE</p>
                 <div class="card-actions">
-                    <a class="btn edit" href="edit-dish.html">
+
+                    <a class="btn edit"
+                       th:href="@{/dishes/{id}/edit(id=${dish.id})}">
                         Modifier
                     </a>
-                    <button class="btn delete" onclick="deleteDish('Margherita')">
-                        Supprimer
-                    </button>
+
+                    <form th:action="@{/dishes/delete/{id}(id=${dish.id})}"
+                          method="post"
+                          style="display:inline;">
+                        <button class="btn delete"
+                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');">
+                            Supprimer
+                        </button>
+                    </form>
+
                 </div>
             </div>
         </section>

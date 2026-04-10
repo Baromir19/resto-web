@@ -65,7 +65,7 @@ public class DishWebController {
         return "redirect:/dishes";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteDish(@PathVariable Long id) {
         restTemplate.delete(apiBaseUrl + "/dishes/" + id);
         return "redirect:/dishes";
