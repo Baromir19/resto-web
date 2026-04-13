@@ -27,6 +27,4 @@ public class DishDto {
     @NotNull(message = "Le prix est obligatoire")
     @Positive(message = "Le prix doit être strictement positif")
     private BigDecimal price;
-
-    private Boolean available = true;
 }

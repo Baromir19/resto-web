@@ -100,7 +100,7 @@ public class ClientWebController {
     }
 
     // On envoie la requête PUT à l'API avec les nouvelles données
-    String url = apiBaseUrl + "/clients/" + id;
+    final String url = apiBaseUrl + "/clients/" + id;
     restTemplate.put(url, client);
 
     return "redirect:/clients";
