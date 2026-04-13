@@ -16,7 +16,7 @@
 
 <!-- MAIN -->
 <div class="main centered">
-    <h1>Error!</h1>
+    <h1 th:text="|Error! ${errorMessage.message} (${errorMessage.code})|"></h1>
 </div>
 
 <footer th:replace="~{components/footers :: mainFooter}"></footer>
