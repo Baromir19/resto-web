@@ -61,7 +61,9 @@ public class DishWebController {
             return "pages/dish/form";
         }
         // Pour faire simple dans le Front, on peut utiliser postForObject ou put selon la configuration API
-        restTemplate.postForObject(apiBaseUrl + "/dishes", dish, DishDto.class);
+        final String url = apiBaseUrl + "/dishes/" + id;
+        restTemplate.put(url, dish);
+
         return "redirect:/dishes";
     }
 

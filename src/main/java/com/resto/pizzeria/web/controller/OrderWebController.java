@@ -88,14 +88,6 @@ public class OrderWebController {
                 = restTemplate.getForEntity(allClientsUrl, ClientDto[].class);
         model.addAttribute("clients", responseClients.getBody());
 
-        /* todo: create Statuses Controller API?????
-
-        // ALL STATUSES
-        final String allStatusesUrl = apiBaseUrl + "/statuses";
-        final ResponseEntity<StatusDto[]> responseStatuses
-                = restTemplate.getForEntity(allStatusesUrl, StatusDto[].class);
-        model.addAttribute("statuses", responseStatuses.getBody());*/
-
         return "pages/order/form";
     }
 
@@ -108,8 +100,9 @@ public class OrderWebController {
             return "pages/order/form";
         }
 
-        restTemplate.postForObject(
-                apiBaseUrl + "/orders", order, DishDto.class);
+        final String url = apiBaseUrl + "/orders/" + id;
+        restTemplate.put(url, order);
+
         return "redirect:/orders";
     }
 
