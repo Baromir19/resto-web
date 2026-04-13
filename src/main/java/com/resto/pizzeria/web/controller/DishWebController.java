@@ -1,6 +1,7 @@
 package com.resto.pizzeria.web.controller;
 
 import com.resto.pizzeria.web.model.DishDto;
+import com.resto.pizzeria.web.service.DishService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,16 +16,15 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/dishes")
 public class DishWebController {
 
-    @Value("${com.resto.pizzeria.web.apiUrl}")
-    private String apiBaseUrl;
+    private final DishService dishService;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    public DishWebController(final DishService dishService) {
+        this.dishService = dishService;
+    }
 
     @GetMapping
     public String listDishes(final Model model) {
-        String url = apiBaseUrl + "/dishes";
-        ResponseEntity<DishDto[]> response = restTemplate.getForEntity(url, DishDto[].class);
-        model.addAttribute("dishes", response.getBody());
+        model.addAttribute("dishes", dishService.getAllDishes());
         return "pages/dish/list";
     }
 
@@ -39,16 +39,18 @@ public class DishWebController {
             @Valid @ModelAttribute("dish") final DishDto dish,
             final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "pages/dish/form"; // todo: send json form with error
+            return "pages/dish/form";
         }
-        restTemplate.postForObject(apiBaseUrl + "/dishes", dish, DishDto.class);
+
+        dishService.createDish(dish);
         return "redirect:/dishes";
     }
 
     @GetMapping("/{id}/edit")
-    public String showUpdateForm(@PathVariable final Long id, final Model model) {
-        DishDto dish = restTemplate.getForObject(apiBaseUrl + "/dishes/" + id, DishDto.class);
-        model.addAttribute("dish", dish);
+    public String showUpdateForm(
+            @PathVariable final Long id,
+            final Model model) {
+        model.addAttribute("dish", dishService.getDishById(id));
         return "pages/dish/form";
     }
 
@@ -60,16 +62,15 @@ public class DishWebController {
         if (bindingResult.hasErrors()) {
             return "pages/dish/form";
         }
-        // Pour faire simple dans le Front, on peut utiliser postForObject ou put selon la configuration API
-        final String url = apiBaseUrl + "/dishes/" + id;
-        restTemplate.put(url, dish);
+
+        dishService.updateDish(id, dish);
 
         return "redirect:/dishes";
     }
 
     @PostMapping("/delete/{id}")
     public String deleteDish(@PathVariable Long id) {
-        restTemplate.delete(apiBaseUrl + "/dishes/" + id);
+        dishService.deleteDish(id);
         return "redirect:/dishes";
     }
 }
