@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class StatusDto {
     /** Identifiant du statut */
     private Long id;
+
     /** Libellé du statut */
     @NotBlank(message = "Le libellé est obligatoire")
     @Size(min = 2, max = 50, message = "Le libellé doit contenir 50 caractères maximum")

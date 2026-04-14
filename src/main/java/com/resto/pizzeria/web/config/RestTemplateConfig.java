@@ -1,6 +1,6 @@
 package com.resto.pizzeria.web.config;
 
-import com.resto.pizzeria.web.handler.RestControllerErrorHandler;
+import com.resto.pizzeria.web.exception.remote.RestControllerErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;

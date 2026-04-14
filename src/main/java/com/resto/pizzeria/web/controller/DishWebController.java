@@ -1,5 +1,7 @@
 package com.resto.pizzeria.web.controller;
 
+import com.resto.pizzeria.web.controller.utils.BindingUtils;
+import com.resto.pizzeria.web.exception.ApiValidationException;
 import com.resto.pizzeria.web.model.DishDto;
 import com.resto.pizzeria.web.service.DishService;
 import jakarta.validation.Valid;
@@ -61,7 +63,13 @@ public class DishWebController {
             return "pages/dish/form";
         }
 
-        dishService.createDish(dish);
+        try {
+            dishService.createDish(dish);
+        } catch (ApiValidationException ex) {
+            BindingUtils.bindErrors(bindingResult, ex);
+            return "pages/dish/form";
+        }
+
         return "redirect:/dishes";
     }
 
@@ -97,7 +105,12 @@ public class DishWebController {
             return "pages/dish/form";
         }
 
-        dishService.updateDish(id, dish);
+        try {
+            dishService.updateDish(id, dish);
+        } catch (ApiValidationException ex) {
+            BindingUtils.bindErrors(bindingResult, ex);
+            return "pages/dish/form";
+        }
 
         return "redirect:/dishes";
     }

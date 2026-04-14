@@ -1,8 +1,12 @@
 package com.resto.pizzeria.web.controller;
 
+import com.resto.pizzeria.web.controller.utils.BindingUtils;
+import com.resto.pizzeria.web.exception.ApiResponseException;
+import com.resto.pizzeria.web.exception.ApiValidationException;
 import com.resto.pizzeria.web.model.ClientDto;
 import com.resto.pizzeria.web.service.ClientService;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,14 +55,20 @@ public class ClientWebController {
   public String createClient(
       @Valid @ModelAttribute("client") final ClientDto client,
       final BindingResult bindingResult
-  ) {
+  ) throws Exception {
     // 1. Vérification des erreurs de validation (les @NotBlank du DTO)
     if (bindingResult.hasErrors()) {
       // S'il y a une erreur, on recharge la page du formulaire avec les messages d'erreur
       return "pages/client/form";
     }
 
-    clientService.createClient(client);
+    try {
+        clientService.createClient(client);
+    } catch (ApiValidationException ex) {
+        BindingUtils.bindErrors(bindingResult, ex);
+
+        return "pages/client/form";
+    }
 
     // 3. On redirige l'utilisateur vers la page de la liste des clients
     return "redirect:/clients";
@@ -93,7 +103,12 @@ public class ClientWebController {
     }
 
     // On envoie la requête PUT à l'API avec les nouvelles données
-    clientService.updateClient(id, client);
+      try {
+          clientService.updateClient(id, client);
+      } catch (ApiValidationException ex) {
+          BindingUtils.bindErrors(bindingResult, ex);
+          return "pages/client/form";
+      }
 
     return "redirect:/clients";
   }
