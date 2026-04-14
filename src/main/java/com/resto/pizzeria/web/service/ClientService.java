@@ -9,6 +9,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Service de gestion des clients via une API REST.
+ */
 @Service
 public class ClientService {
     private final RestTemplate restTemplate;
@@ -21,7 +24,9 @@ public class ClientService {
     }
 
     /**
-     * Obtient tous les clients.
+     * Récupère tous les clients.
+     *
+     * @return liste des clients
      */
     public List<ClientDto> getAllClients() {
         String url = apiBaseUrl + "/clients";
@@ -33,8 +38,10 @@ public class ClientService {
     }
 
     /**
-     * Obtient le client par id.
-     * @param id Identifiant du client.
+     * Récupère un client par son identifiant.
+     *
+     * @param id identifiant du client
+     * @return le client correspondant
      */
     public ClientDto getClientById(final Long id) {
         return restTemplate.getForObject(
@@ -44,8 +51,9 @@ public class ClientService {
     }
 
     /**
-     * Sauvegarde le client.
-     * @param client Client pour sauvegarder.
+     * Crée un nouveau client.
+     *
+     * @param client client à créer
      */
     public void createClient(final ClientDto client) {
         restTemplate.postForObject(

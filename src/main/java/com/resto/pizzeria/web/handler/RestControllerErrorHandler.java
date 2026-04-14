@@ -10,9 +10,19 @@ import org.springframework.web.client.ResponseErrorHandler;
 import java.io.IOException;
 import java.net.URI;
 
+/**
+ * Gestionnaire des erreurs des réponses de l'API REST.
+ */
 @Slf4j
 public class RestControllerErrorHandler implements ResponseErrorHandler {
 
+    /**
+     * Vérifie si la réponse contient une erreur.
+     *
+     * @param response réponse HTTP
+     * @return true si une erreur est présente
+     * @throws IOException en cas d'erreur d'entrée/sortie
+     */
     @Override
     public boolean hasError(
             final ClientHttpResponse response
@@ -21,6 +31,14 @@ public class RestControllerErrorHandler implements ResponseErrorHandler {
                 || response.getStatusCode().is5xxServerError();
     }
 
+    /**
+     * Gère les erreurs de la réponse HTTP.
+     *
+     * @param url URL de la requête
+     * @param method méthode HTTP
+     * @param response réponse HTTP
+     * @throws IOException en cas d'erreur d'entrée/sortie
+     */
     @Override
     public void handleError(
             final URI url,
