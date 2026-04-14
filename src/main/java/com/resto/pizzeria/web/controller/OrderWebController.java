@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+/**
+ * Contrôleur web pour la gestion des commandes.
+ */
 @Controller
 @RequestMapping("/orders")
 public class OrderWebController {
@@ -30,12 +33,24 @@ public class OrderWebController {
         this.dishService = dishService;
     }
 
+    /**
+     * Affiche la liste des commandes.
+     *
+     * @param model modèle pour la vue
+     * @return vue de la liste des commandes
+     */
     @GetMapping
     public String listOrders(final Model model) {
         model.addAttribute("orders", orderService.getAllOrders());
         return "pages/order/list";
     }
 
+    /**
+     * Affiche le formulaire de création d'une commande.
+     *
+     * @param model modèle pour la vue
+     * @return vue du formulaire
+     */
     @GetMapping("/new")
     public String showCreateForm(final Model model) {
         model.addAttribute("dishes", dishService.getAllDishes());
@@ -45,6 +60,13 @@ public class OrderWebController {
         return "pages/order/form";
     }
 
+    /**
+     * Crée une nouvelle commande.
+     *
+     * @param order données de la commande
+     * @param bindingResult résultat de validation
+     * @return redirection vers la liste des commandes
+     */
     @PostMapping
     public String createOrder(
             @Valid @ModelAttribute("order") final OrderDto order,
@@ -60,6 +82,13 @@ public class OrderWebController {
         return "redirect:/orders";
     }
 
+    /**
+     * Affiche le formulaire de modification d'une commande.
+     *
+     * @param id identifiant de la commande
+     * @param model modèle pour la vue
+     * @return vue du formulaire
+     */
     @GetMapping("/{id}/edit")
     public String showUpdateForm(
             @PathVariable final Long id,
@@ -71,6 +100,14 @@ public class OrderWebController {
         return "pages/order/form";
     }
 
+    /**
+     * Met à jour une commande existante.
+     *
+     * @param id identifiant de la commande
+     * @param order données mises à jour
+     * @param bindingResult résultat de validation
+     * @return redirection vers la liste des commandes
+     */
     @PostMapping("/{id}")
     public String updateOrder(
             @PathVariable final Long id,
@@ -85,6 +122,12 @@ public class OrderWebController {
         return "redirect:/orders";
     }
 
+    /**
+     * Supprime une commande.
+     *
+     * @param id identifiant de la commande
+     * @return redirection vers la liste des commandes
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteOrder(@PathVariable final Long id) {

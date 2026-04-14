@@ -142,7 +142,7 @@ class ClientSeleniumTest {
     }
 
     @Test
-    void shouldCreateClient() {
+    void validateCrud() {
         driver.get("http://localhost:8081/clients");
 
         final String suffix = UUID.randomUUID().toString().substring(0, 8);

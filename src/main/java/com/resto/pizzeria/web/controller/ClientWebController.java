@@ -3,15 +3,15 @@ package com.resto.pizzeria.web.controller;
 import com.resto.pizzeria.web.model.ClientDto;
 import com.resto.pizzeria.web.service.ClientService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
+/**
+ * Contrôleur web pour la gestion des clients.
+ */
 @Controller // Attention : @Controller et non @RestController pour renvoyer du HTML
 @RequestMapping("/clients")
 public class ClientWebController {
@@ -22,7 +22,7 @@ public class ClientWebController {
     }
 
   /**
-   * READ : Affiche la page avec la liste de tous les clients
+   * READ : Affiche la page avec la liste de tous les clients.
    */
   @GetMapping
   public String listClients(final Model model) {
@@ -33,7 +33,8 @@ public class ClientWebController {
   }
 
   /**
-   * CREATE (Étape 1) : Affiche le formulaire vide pour ajouter un client
+   * CREATE (Étape 1) : Affiche le formulaire
+   * vide pour ajouter un client.
    */
   @GetMapping("/new")
   public String showCreateForm(final Model model) {
@@ -43,7 +44,8 @@ public class ClientWebController {
   }
 
   /**
-   * CREATE (Étape 2) : Réceptionne les données du formulaire et les envoie à l'API
+   * CREATE (Étape 2) : Réceptionne les données
+   * du formulaire et les envoie à l'API.
    */
   @PostMapping
   public String createClient(
@@ -63,7 +65,8 @@ public class ClientWebController {
   }
 
   /**
-   * UPDATE (Étape 1) : Affiche le formulaire pré-rempli pour modifier un client
+   * UPDATE (Étape 1) : Affiche le formulaire
+   * pré-rempli pour modifier un client.
    */
   @GetMapping("/{id}/edit")
   public String showUpdateForm(
@@ -75,7 +78,8 @@ public class ClientWebController {
   }
 
   /**
-   * UPDATE (Étape 2) : Réceptionne le formulaire modifié et fait un PUT vers l'API
+   * UPDATE (Étape 2) : Réceptionne le formulaire
+   * modifié et fait un PUT vers l'API.
    */
   @PostMapping("/{id}")
   public String updateClient(
@@ -95,7 +99,7 @@ public class ClientWebController {
   }
 
   /**
-   * DELETE : Demande à l'API de supprimer un client
+   * DELETE : Demande à l'API de supprimer un client.
    */
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
