@@ -75,7 +75,8 @@
                 </div>
             </div>
 
-            <!-- BUTTONS -->
+            <div th:replace="~{components/errors :: globalErrors}"></div>
+
             <div class="form-actions">
                 <button type="submit" class="btn primary">
                     <span th:text="${dish.id == null ? 'Créer' : 'Sauvegarder'}"></span>

@@ -1,11 +1,13 @@
 package com.resto.pizzeria.web.service;
 
+import com.resto.pizzeria.web.exception.ApiValidationException;
 import com.resto.pizzeria.web.model.ClientDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +57,9 @@ public class ClientService {
      *
      * @param client client à créer
      */
-    public void createClient(final ClientDto client) {
+    public void createClient(
+            final ClientDto client
+    ) throws ApiValidationException {
         restTemplate.postForObject(
                 apiBaseUrl + "/clients",
                 client,

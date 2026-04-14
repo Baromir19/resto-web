@@ -43,6 +43,8 @@
                 </div>
             </div>
 
+            <div th:replace="~{components/errors :: globalErrors}"></div>
+
             <div class="form-actions">
                 <button type="submit" class="btn primary">Sauvegarder</button>
                 <a th:href="@{/clients}" class="btn secondary">Annuler</a>

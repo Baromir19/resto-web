@@ -1,6 +1,8 @@
 package com.resto.pizzeria.web.controller;
 
+import com.resto.pizzeria.web.controller.utils.BindingUtils;
 import com.resto.pizzeria.web.controller.utils.OrderUtils;
+import com.resto.pizzeria.web.exception.ApiValidationException;
 import com.resto.pizzeria.web.model.OrderDto;
 import com.resto.pizzeria.web.service.ClientService;
 import com.resto.pizzeria.web.service.DishService;
@@ -77,7 +79,12 @@ public class OrderWebController {
             return "pages/order/form";
         }
 
-        orderService.createOrder(order);
+        try {
+            orderService.createOrder(order);
+        } catch (ApiValidationException ex) {
+            BindingUtils.bindErrors(bindingResult, ex);
+            return "pages/order/form";
+        }
 
         return "redirect:/orders";
     }
@@ -117,7 +124,12 @@ public class OrderWebController {
             return "pages/order/form";
         }
 
-        orderService.updateOrder(id, order);
+        try {
+            orderService.updateOrder(id, order);
+        } catch (ApiValidationException ex) {
+            BindingUtils.bindErrors(bindingResult, ex);
+            return "pages/order/form";
+        }
 
         return "redirect:/orders";
     }
