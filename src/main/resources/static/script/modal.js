@@ -4,8 +4,6 @@
 function openDeleteModal(id, name, endpoint) {
     document.getElementById('modalName').textContent = name;
 
-    // document.getElementById('confirmDeleteBtn').href = endpoint + '/' + id;
-
     const btn = document.getElementById('confirmDeleteBtn');
 
     btn.onclick = async function () {
@@ -16,7 +14,6 @@ function openDeleteModal(id, name, endpoint) {
 
             if (response.ok) {
                 closeDeleteModal();
-
                 window.location.reload();
             } else {
                 console.error('Delete failed');
@@ -26,19 +23,29 @@ function openDeleteModal(id, name, endpoint) {
         }
     };
 
-    // 4. On affiche la modale (on passe de display:none à display:flex)
     document.getElementById('deleteModal').style.display = 'flex';
 }
 
 function openDeleteModalClient(buttonElement) {
-    const id = buttonElement.getAttribute('data-id');
+    const id   = buttonElement.getAttribute('data-id');
     const name = buttonElement.getAttribute('data-name');
     openDeleteModal(id, name, 'clients/');
 }
 
+function openDeleteModalDish(button) {
+    const id   = button.getAttribute('data-id');
+    const name = button.getAttribute('data-name');
+
+    document.getElementById('modalDishName').textContent = name;
+    document.getElementById('deleteDishForm').action = '/dishes/delete/' + id;
+
+    document.getElementById('deleteModalDish').style.display = 'flex';
+}
+
+
 function openDeleteModalOrder(buttonElement) {
     const id = buttonElement.getAttribute('data-id');
-    openDeleteModal(id, "", 'orders/');
+    openDeleteModal(id, '', 'orders/');
 }
 
 /**
@@ -47,3 +54,12 @@ function openDeleteModalOrder(buttonElement) {
 function closeDeleteModal() {
     document.getElementById('deleteModal').style.display = 'none';
 }
+
+function closeDeleteModalDish() {
+    document.getElementById('deleteModalDish').style.display = 'none';
+}
+
+// Fermer en cliquant sur le fond
+document.getElementById('deleteModalDish').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModalDish();
+});
