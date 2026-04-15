@@ -35,35 +35,37 @@
             Gérez vos plats, clients et commandes depuis une interface centralisée.
         </p>
 
-        <nav class="home-buttons" aria-label="Navigation principale">
-            <a th:href="@{/dishes}" class="btn hero-btn">
-                <span class="btn-icon">&#127829;</span>
-                Plats
-            </a>
-            <a th:href="@{/clients}" class="btn hero-btn">
-                <span class="btn-icon">&#128101;</span>
-                Clients
-            </a>
-            <a th:href="@{/orders}" class="btn hero-btn">
-                <span class="btn-icon">&#128203;</span>
-                Commandes
-            </a>
-        </nav>
+        <!-- CARDS -->
+        <nav class="home-cards" aria-label="Navigation principale">
 
-<!--        <div class="hero-stats">-->
-<!--            <div class="stat-item">-->
-<!--                <span class="stat-value">CRUD</span>-->
-<!--                <span class="stat-label">Opérations</span>-->
-<!--            </div>-->
-<!--            <div class="stat-item">-->
-<!--                <span class="stat-value">REST</span>-->
-<!--                <span class="stat-label">API</span>-->
-<!--            </div>-->
-<!--            <div class="stat-item">-->
-<!--                <span class="stat-value">H2 / JPA</span>-->
-<!--                <span class="stat-label">Base de données</span>-->
-<!--            </div>-->
-<!--        </div>-->
+            <a th:href="@{/dishes}" class="home-card">
+                <div class="home-card-icon">&#127829;</div>
+                <div class="home-card-body">
+                    <span class="home-card-title">Plats</span>
+                    <span class="home-card-desc">Ajouter, modifier et supprimer les plats du menu</span>
+                </div>
+                <span class="home-card-arrow">&#8594;</span>
+            </a>
+
+            <a th:href="@{/clients}" class="home-card">
+                <div class="home-card-icon">&#128101;</div>
+                <div class="home-card-body">
+                    <span class="home-card-title">Clients</span>
+                    <span class="home-card-desc">Gérer la liste des clients enregistrés</span>
+                </div>
+                <span class="home-card-arrow">&#8594;</span>
+            </a>
+
+            <a th:href="@{/orders}" class="home-card">
+                <div class="home-card-icon">&#128203;</div>
+                <div class="home-card-body">
+                    <span class="home-card-title">Commandes</span>
+                    <span class="home-card-desc">Suivre et administrer les commandes en cours</span>
+                </div>
+                <span class="home-card-arrow">&#8594;</span>
+            </a>
+
+        </nav>
 
     </div>
 </main>
