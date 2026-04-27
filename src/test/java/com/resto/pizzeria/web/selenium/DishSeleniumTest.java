@@ -1,12 +1,23 @@
 package com.resto.pizzeria.web.selenium;
 
+import com.resto.pizzeria.web.config.CustomProperties;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class DishSeleniumTest {
+    @Qualifier("com.resto.pizzeria.web-com.resto.pizzeria.web.config.CustomProperties")
+    @Autowired
+    private CustomProperties properties;
 
     private WebDriver driver;
 
@@ -18,7 +29,7 @@ public class DishSeleniumTest {
     @Test
     void testAddDish() throws InterruptedException {
         // 1. Open the app
-        driver.get("http://localhost:8081/dishes");
+        driver.get(properties.getBaseUrl() + "/dishes");
 
         Thread.sleep(1000);
 
@@ -45,7 +56,7 @@ public class DishSeleniumTest {
 
     @Test
     void testEditDish() throws InterruptedException {
-        driver.get("http://localhost:8081/dishes");
+        driver.get(properties.getBaseUrl() + "/dishes");
 
         Thread.sleep(1000);
 
@@ -69,7 +80,7 @@ public class DishSeleniumTest {
 
     @Test
     void testDeleteDish() throws InterruptedException {
-        driver.get("http://localhost:8081/dishes");
+        driver.get(properties.getBaseUrl() + "/dishes");
 
         Thread.sleep(1000);
 

@@ -33,6 +33,12 @@ pipeline {
             }
         }
 
+        stage('Allure Report') {
+            steps {
+                bat 'mvn allure:report'
+            }
+        }
+
          stage('Build Docker Image') {
             steps {
                 bat 'docker build -t %DOCKER_IMAGE%:%DOCKER_TAG% .'

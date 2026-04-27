@@ -1,13 +1,19 @@
 package com.resto.pizzeria.web.selenium;
 
+import com.resto.pizzeria.web.config.CustomProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Duration;
 import java.util.List;
@@ -15,7 +21,13 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class ClientSeleniumTest {
+    @Qualifier("com.resto.pizzeria.web-com.resto.pizzeria.web.config.CustomProperties")
+    @Autowired
+    private CustomProperties properties;
+
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -143,7 +155,7 @@ class ClientSeleniumTest {
 
     @Test
     void validateCrud() {
-        driver.get("http://localhost:8081/clients");
+        driver.get(properties.getBaseUrl() + "/clients");
 
         final String suffix = UUID.randomUUID().toString().substring(0, 8);
         final String firstNameText = "TEST_FIRST_NAME_" + suffix;

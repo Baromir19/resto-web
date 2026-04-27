@@ -9,7 +9,7 @@ header {
 /* TITLE centered + red like prices */
 .header-title {
     font-style: var(--font-title);
-    text-align: right;
+    text-align: left;
     font-size: var(--text-xl);
     font-weight: bold;
     color: var(--color-primary);

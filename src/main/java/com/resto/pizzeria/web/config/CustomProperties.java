@@ -11,5 +11,6 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "com.resto.pizzeria.web")
 @Data
 public class CustomProperties {
-  private String apiUrl;
+    private String apiUrl;
+    private String baseUrl;
 }
