@@ -21,7 +21,7 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 script {
-                    git branch: 'main',
+                    git branch: 'ci/deploy-jenkins',
                         url: 'https://github.com/Baromir19/resto-web.git'
                 }
             }
