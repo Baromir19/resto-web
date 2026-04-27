@@ -1,13 +1,24 @@
 package com.resto.pizzeria.web.selenium;
 
+import com.resto.pizzeria.web.config.CustomProperties;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class OrderSeleniumTest {
+    @Qualifier("com.resto.pizzeria.web-com.resto.pizzeria.web.config.CustomProperties")
+    @Autowired
+    private CustomProperties properties;
 
     private WebDriver driver;
 
@@ -19,12 +30,12 @@ public class OrderSeleniumTest {
     @Test
     void testCreateOrder() throws InterruptedException {
         // 1. Open orders page
-        driver.get("http://localhost:8081/orders");
+        driver.get(properties.getBaseUrl() + "/orders");
 
         Thread.sleep(1000);
 
         // 2. Go to "new order"
-        driver.get("http://localhost:8081/orders/new");
+        driver.get(properties.getBaseUrl() + "/orders/new");
 
         Thread.sleep(1000);
 
@@ -49,7 +60,7 @@ public class OrderSeleniumTest {
 
     @Test
     void testReadOrders() {
-        driver.get("http://localhost:8081/orders");
+        driver.get(properties.getBaseUrl() + "/orders");
 
         String page = driver.getPageSource();
 
@@ -58,7 +69,7 @@ public class OrderSeleniumTest {
 
     @Test
     void testUpdateOrder() throws InterruptedException {
-        driver.get("http://localhost:8081/orders");
+        driver.get(properties.getBaseUrl() + "/orders");
 
         Thread.sleep(1000);
 
@@ -81,7 +92,7 @@ public class OrderSeleniumTest {
 
     @Test
     void testDeleteOrder() throws InterruptedException {
-        driver.get("http://localhost:8081/orders");
+        driver.get(properties.getBaseUrl() + "/orders");
 
         Thread.sleep(1000);
 
