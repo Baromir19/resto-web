@@ -6,6 +6,11 @@ pipeline {
         DOCKER_TAG = "latest"
     }
 
+    tools {
+        maven 'maven'
+        jdk 'JDK25'
+    }
+
     stages {
         stage('Clean workspace') {
             steps {
