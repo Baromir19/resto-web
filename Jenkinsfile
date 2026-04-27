@@ -32,5 +32,33 @@ pipeline {
                 bat 'mvn clean package -DskipTests'
             }
         }
+
+         stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t %DOCKER_IMAGE%:%DOCKER_TAG% .'
+            }
+        }
+
+        stage('Login to DockerHub') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    bat """
+                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                    """
+                }
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                bat """
+                docker push %DOCKER_IMAGE%:%DOCKER_TAG%
+                """
+            }
+        }
     }
 }
